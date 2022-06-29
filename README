@@ -1,0 +1,43 @@
+Darius Neatu  <darius.neatu@cti.pub.ro>
+Rares Cheseli <rares.cheseli@stud.acs.upb.ro>
+
+					Project CA - allocator - skel
+
+	Scheletul este un simplu exemplu de citire a comenzilor
+de la stdin (sau din fisiere folosind redirectare).
+Scheletul propune o varianta de parsare (extragere a elementelor
+dintr-o comanda).
+
+	ATENTIE! Este doar un exemplu demonstrativ. Folosirea scheletului
+este alegerea voastra.
+	ORICE BUCATA DE COD din tema voastra trimisa pe vmchecker
+va trebui sustinuta la prezentare, chiar daca face parte din schelet.
+	Pe scurt, puteti folosi scheletul, dar asigurati-va ca intelegeti
+cum functioneaza. :D
+
+	Cum compilez scheletul?
+make build
+	(daca veti avea mai multe fisiere .c/.h va trebui sa il reactualizati)
+
+	Cum rulez?
+./allocator < file
+	
+	Exemplu:
+darius@pc ~/skel $ ./allocator < _tests/basic_1.in 
+cmd = (INITIALIZE)
+arg[0] = (INITIALIZE)
+arg[1] = (100)
+
+cmd = (ALLOC)
+arg[0] = (ALLOC)
+arg[1] = (13)
+
+cmd = (FILL)
+arg[0] = (FILL)
+arg[1] = (16)
+arg[2] = (13)
+arg[3] = (255)
+...
+
+cmd = (FINALIZE)
+arg[0] = (FINALIZE)
