@@ -1,29 +1,16 @@
-# Compiler
-CC = gcc
+CC=gcc
+CFLAGS=-I -g -Wall -Wextra -std=c99
+DEPS=allocator.c
 
-# Compiler flags
-CFLAGS = -Wall -Wextra -std=c99
+OBJ := alloc_utils.o
 
-# Loader flags (ex. for math.h)
-LDFLAGS = -lm
+%.o: %.c
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-# Here you can add object files
-OBJ = allocator.o
-
-# Here is the name for executable
-EXE = allocator
-
-build: $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $(EXE) $(LDFLAGS)
-
-run: build
-	./$(EXE)
-
-# How cool can be this Makefile? Can pack my homework.
-# Hint: make sure you add all files in zip.
-pack:
-	zip -FSr project-skel.zip allocator.c Makefile README
+allocator: $(OBJ) $(DEPS)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
+
 clean:
-	rm -f *.o $(EXE) 
+	rm -f *.o allocator

@@ -2,6 +2,7 @@
 #define ALLOC_UTILS_H__
 
 typedef struct __attribute__((__packed__)) arena_t {
+    int size;
     void *byte_string;
 } arena_t;
 
