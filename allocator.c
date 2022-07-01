@@ -1,9 +1,4 @@
-/*
-    Project CA - allocator - skel
-
-    Darius Neatu  <darius.neatu@cti.pub.ro>
-    Rares Cheseli <rares.cheseli@stud.acs.upb.ro>
- */
+// Copyright 2022 Maria Sfiraiala (maria.sfiraiala@stud.acs.upb.ro)
 
 #include <math.h>
 #include <stdio.h>
@@ -13,32 +8,9 @@
 #define MAX_LINE_LEN 1000
 #define MAX_CMD_ARGS 10
 
-int cmd_read(int *args_count, char *args[MAX_CMD_ARGS]);
-void cmd_execute(int args_count, char *args[MAX_CMD_ARGS]);
-void cmd_free(int args_count, char *args[MAX_CMD_ARGS]);
-
-int main() {
-    // cmd: cmd_name argument1 argument2 ...
-    // args = {cmd_name, argument1, argument2, ... }
-    // args_count = length of args
-    int args_count;
-    char *args[MAX_CMD_ARGS];
-
-    while (1) {
-        // read new command from stdin
-        if (!cmd_read(&args_count, args)) {
-            break; // no command was found, break loop
-        }
-
-        cmd_execute(args_count, args);  // execute command
-        cmd_free(args_count, args); // free memory allocated for args
-    }
-
-    return 0;
-}
-
 // read a new command from stdin
-int cmd_read(int *args_count, char *args[MAX_CMD_ARGS]) {
+int cmd_read(int *args_count, char *args[MAX_CMD_ARGS])
+{
     char line[MAX_LINE_LEN + 1]; //  buffer for a line
 
     // try to read a new command (a new line)
@@ -73,29 +45,10 @@ int cmd_read(int *args_count, char *args[MAX_CMD_ARGS]) {
     return 1;            // success
 }
 
-
-// free memory allocated for args
-void cmd_free(int args_count, char *args[MAX_CMD_ARGS]) {
-    for (int i = 0; i < args_count; ++i) {
-        free(args[i]);
-    }
-}
-
-// ONLY FOR DEBUG
-void print_args(int args_count, char *args[MAX_CMD_ARGS]) {
-    printf("cmd = (%s)\n", args[0]);
-    for (int i = 0; i < args_count; ++i) {
-        printf("arg[%d] = (%s)\n", i, args[i]);
-    }
-    printf("\n");
-}
-
 // execute a command
-void cmd_execute(int args_count, char *args[MAX_CMD_ARGS]) {
+void cmd_execute(int args_count, char *args[MAX_CMD_ARGS])
+{
     char *cmd = args[0];
-
-    // ONLY FOR DEBUG
-    print_args(args_count, args);
 
     if (!strcmp(cmd, "INITIALIZE")) {
         // TODO: implement INITIALIZE
@@ -132,3 +85,31 @@ void cmd_execute(int args_count, char *args[MAX_CMD_ARGS]) {
     }
 }
 
+// free memory allocated for args
+void cmd_free(int args_count, char *args[MAX_CMD_ARGS])
+{
+    for (int i = 0; i < args_count; ++i) {
+        free(args[i]);
+    }
+}
+
+int main(void)
+{
+    // cmd: cmd_name argument1 argument2 ...
+    // args = {cmd_name, argument1, argument2, ... }
+    // args_count = length of args
+    int args_count;
+    char *args[MAX_CMD_ARGS];
+
+    while (1) {
+        // read new command from stdin
+        if (!cmd_read(&args_count, args)) {
+            break; // no command was found, break loop
+        }
+
+        cmd_execute(args_count, args);  // execute command
+        cmd_free(args_count, args); // free memory allocated for args
+    }
+
+    return 0;
+}
