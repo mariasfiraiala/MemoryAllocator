@@ -15,4 +15,12 @@ typedef struct __attribute__((__packed__)) arena_t {
         }                                                                      \
     } while (0)
 
+void initialize_arena(arena_t **arena, int N);
+
+void finalize(arena_t *arena);
+
+void dump(arena_t *arena);
+
+int alloc(arena_t *arena, int size);
+
 #endif // ALLOC_UTILS_H__

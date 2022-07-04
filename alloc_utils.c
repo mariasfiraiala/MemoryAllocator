@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include "alloc_utils.h"
 
 void initialize_arena(arena_t **arena, int N)
 {
-    *arena = (arena_t *)malloc(sizeof(**arena));
-    DIE((*arena), "malloc() failed\n");
-
     (*arena)->byte_string = calloc(N, sizeof(char));
     DIE(!((*arena)->byte_string), "calloc() failed\n");
 
@@ -37,4 +35,24 @@ void dump(arena_t *arena)
     }
 
     printf("%08X\n", arena->size);
+}
+
+int alloc(arena_t *arena, int size)
+{
+    if (size > arena->size)
+        return 0;
+
+    int *start_index = ((int *)arena->byte_string);
+
+    if (!(*start_index)) {
+        *start_index = 4;
+        *(start_index + 1) = 0;
+        *(start_index + 2) = 0;
+        *(start_index + 3) = 12 + size;
+
+        return *start_index + 12;
+    }
+    else {
+
+    }
 }
