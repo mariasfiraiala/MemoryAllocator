@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+#include "alloc_utils.h"
 
 #define MAX_LINE_LEN 1000
 #define MAX_CMD_ARGS 10
@@ -46,22 +48,20 @@ int cmd_read(int *args_count, char *args[MAX_CMD_ARGS])
 }
 
 // execute a command
-void cmd_execute(int args_count, char *args[MAX_CMD_ARGS])
+void cmd_execute(int args_count, char *args[MAX_CMD_ARGS], arena_t *arena)
 {
     char *cmd = args[0];
 
     if (!strcmp(cmd, "INITIALIZE")) {
-        // TODO: implement INITIALIZE
-        // HINT: call a function :D
+        int N = atoi(args[1]);
+        initialize_arena(&arena, N);
     } else if (!strcmp(cmd, "FINALIZE")) {
-        // TODO: implement FINALIZE
-        // HINT: call a function :D
+        finalize(arena);
     } else if (!strcmp(cmd, "DUMP")) {
-        // TODO: implement DUMP
-        // HINT: call a function :D
+        dump(arena);
     } else if (!strcmp(cmd, "ALLOC")) {
-        // TODO: implement ALLOC
-        // HINT: call a function :D
+        int size = atoi(args[1]);
+        printf("%d\n", alloc(arena, size));
     } else if (!strcmp(cmd, "FREE")) {
         // TODO: implement FREE
         // HINT: call a function :D
@@ -101,13 +101,17 @@ int main(void)
     int args_count;
     char *args[MAX_CMD_ARGS];
 
+    arena_t *arena;
+    arena = (arena_t *)malloc(sizeof(*arena));
+    DIE(!arena, "malloc() failed\n");
+
     while (1) {
         // read new command from stdin
         if (!cmd_read(&args_count, args)) {
             break; // no command was found, break loop
         }
 
-        cmd_execute(args_count, args);  // execute command
+        cmd_execute(args_count, args, arena);  // execute command
         cmd_free(args_count, args); // free memory allocated for args
     }
 
